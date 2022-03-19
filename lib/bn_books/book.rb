@@ -12,7 +12,7 @@ class BnBooks::Book
     end
 
     def self.all
-        BnBooks::Scraper.scrape_books if @@all.empty?
+        BnBooks::Scraper.scrape_book if @@all.empty?
         @@all
     end
 
