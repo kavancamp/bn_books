@@ -1,0 +1,6 @@
+class BnBooks::Book
+
+
+
+
+end
