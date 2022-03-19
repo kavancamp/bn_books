@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby #shebang
 
 require_relative '../lib/bn_books'
+
+BnBooks::CLI.new.call
