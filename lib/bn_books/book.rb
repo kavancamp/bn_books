@@ -6,9 +6,7 @@ class BnBooks::Book
         @title = title
         @author = author
         @url = url
-    
        save
-
     end
 
     def self.all
@@ -22,10 +20,10 @@ class BnBooks::Book
 
     def self.display_books
         puts "Books in this category :"
-        puts ""
-        Book.all.each_with_index do |book,index|
+        Book.all.each_with_index(1) do |book, index|
           if book.title
-            puts "#{index + 1}- Title: #{book.title} Author: #{book.author} Url: #{book.url}"
+            puts "#{index}- Title: #{book.title} Author: #{book.author} Url: #{book.url}"
+            end
         end
     end
 end
