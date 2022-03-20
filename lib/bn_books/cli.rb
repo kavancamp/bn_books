@@ -1,13 +1,12 @@
 class BnBooks::CLI 
     def call
-        puts "                         Welcome To BNBooks CLI!!! "
-        category_list
-        print_books
+        puts "            Welcome To BNBooks CLI!!! "
+        display_best_sellers
         menu
-       
+        
       end
     
-      def category_list
+      def display_best_sellers
         x = Scraper.new
         x.scrape_category
         x.category.each.with_index(1) do |index, category|
@@ -18,59 +17,37 @@ class BnBooks::CLI
       def menu
         input = nil
         while input != "exit"
-        puts "\nPlease type Book # or type exit!"
+        puts "\nPlease type Book # for more details, or type exit!"
         input = gets.strip.downcase
         if (input.to_i > 0) && (input.to_i <= 20)
-          Book.clear
-          Scraper.clear
           x = Scraper.new
           x.scrape_category
           x.scrape_book(x.category[input.to_i-1])
-          Book.print_books
+          Book.display_book_details
           choose_book
           break
-        elsif input == "list"
-          Scraper.clear
-          category_list
-        else
-    
+        else input == "list"
+            Scraper.clear
+            display_best_sellers
           end
         end
       end
-    
-      def print_books
-        puts "Here is your selected book:"
-        puts ""
-      input =  BnBooks::Book.find_by_index(input.to_i - 1)
-          if book.title
-    
-            puts "#{index}- Title: #{book.title}"
-    
-            puts "    Author: #{book.author}"
-    
-            puts "     URL : #{book.url}"
-            puts "------------------------"
-          end
-        end
-      end
-
+     
       def choose_book
          input = nil
          while input != "exit"
-         puts "Select a book number to go to the web page or list to get categories or exit !"
+         puts "Enter book # to go to the web page or 'list' to get categories or 'exit'!"
          input = gets.strip
          if (input.to_i > 0) && (input.to_i < 20)
-           system("open https://www.barnesandnoble.com/w/#{Book.all[input.to_i-1].url}")
+           system("open https://www.barnesandnoble.com/#{Book.all[input.to_i-1].url}")
            elsif
              input == "list"
                Scraper.clear
-               category_list
+               display_best_sellers
                menu
-               break
-             else
                break
             end
           end
         end
 
-    end
+end
