@@ -1,20 +1,34 @@
-class BnBooks::Scraper 
+class Scraper 
+  @@all = []
+  def category
+    @@all
+  end
 
-@@all = []
-def category
-    @@all.delete_if {|cat| (cat.include? " ") || (cat.include? "/") || (cat.include? "Postmodernism") || (cat.include? "Religion") || (cat.include? "Technology") || (cat.include? "Environment") || (cat.include? "Communications")}
-end
-def scrape_categories
-    doc = Nokogiri::HTML(open("https://www.barnesandnoble.com/h/books/browse"))
-    category = doc.css("div.html-embed-container")
-    category.each do |name|
-      @@all << name.css("h3").text
+  def scrape_category
+    doc = Nokogiri::HTML(open("https://www.barnesandnoble.com/b/books/_/N-1fZ29Z8q8"))
+    category = doc.css("div.product-info-view")
+    category.each do  |title|
+      @@all << title.css("h3 a").text.strip
     end
-    @@all.shift
+    @@all
 
   end
 
 
+  def scrape_book(input)
+        doc = Nokogiri::HTML(open("https://www.barnesandnoble.com/b/books/_/N-1fZ29Z8q8"))
+        book = doc.css("div.product-info-view")
+        book.each do |data|
+          obj = Book.new
+          obj.title = data.css("h3 a").text.strip
+          obj.author = data.css("div.product-shelf-author").text.strip
+          obj.url = data.css("a").attr("href").text
+        end
+      end
+
+    def self.clear
+      @@all = []
+    end
 end
 
 
