@@ -7,7 +7,7 @@ require 'pry'
 require 'nokogiri'
 require 'bundler'
 require 'open-uri'
-require 'nokogiri'
+
 module BnBooks
   class Error < StandardError; end
   # Your code goes here...
