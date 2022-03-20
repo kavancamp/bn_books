@@ -1,29 +1,20 @@
-class BnBooks::Book
-    @@all = []
-    attr_accessor :title, :author, :url, 
+class Book
 
-    def initialize
-        @title = title
-        @author = author
-        @url = url
-       save
-    end
+attr_accessor :title, :author, :url
+  @@all = []
 
-    def self.all
-        BnBooks::Scraper.scrape_book if @@all.empty?
-        @@all
-    end
+  def initialize
+    @@all << self
+  end
 
-    def save
-        @all << self
-    end
-
-    def self.display_books
-        puts "Books in this category :"
-        Book.all.each_with_index(1) do |book, index|
-          if book.title
-            puts "#{index}- Title: #{book.title} Author: #{book.author} Url: #{book.url}"
-            end
-        end
-    end
+  def self.all
+    @@all
+  end
+  def self.clear
+    @@all =[]
+  end
+  def self.find_by_index(index)
+    @@all[index]
+  end
+  
 end
