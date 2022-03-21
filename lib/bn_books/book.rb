@@ -3,11 +3,7 @@ class Book
 
     @@all = []
   
-    def initialize(title, author, url, date)
-      @title = title
-      @aauthor = author
-      @url = url
-      @price = price
+    def initialize
       @@all << self
     end
   
@@ -16,7 +12,7 @@ class Book
     end
   
     def self.find_by_index(index)
-      @@all[index]
+      @all[index]
     end
 
   def self.clear
@@ -26,9 +22,9 @@ class Book
   def self.display_book_details
     puts "More info on selected title :"
     puts ""
-      Book.all.each_with_index do |book,index|
-          if title.title
-            puts "#{index + 1}- Title: #{book.title}"
+      Book.all.each.with_index(1) do |book, index |
+        if book.title
+            puts "#{index}- Title: #{book.title}"
             puts " Author: #{book.author}"
             puts " URL : #{book.url}"
             puts " Price: #{book.price}"
