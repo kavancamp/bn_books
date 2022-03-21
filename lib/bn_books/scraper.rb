@@ -1,34 +1,39 @@
-class Scraper 
+class Scraper
+
   @@all = []
-  def category
+
+  def title 
     @@all
   end
 
-  def scrape_category
+  def scrape_best_sellers
     doc = Nokogiri::HTML(open("https://www.barnesandnoble.com/b/books/_/N-1fZ29Z8q8"))
-    category = doc.css("div.product-info-view")
-    category.each do  |title|
+    title = doc.css("div.product-info-view")
+    title.each do  |title|
       @@all << title.css("h3 a").text.strip
     end
     @@all
-
   end
 
 
   def scrape_book(input)
-        doc = Nokogiri::HTML(open("https://www.barnesandnoble.com/b/books/_/N-1fZ29Z8q8"))
-        book = doc.css("div.product-info-view")
-        book.each do |data|
-          obj = Book.new
-          obj.title = data.css("h3 a").text.strip
-          obj.author = data.css("div.product-shelf-author").text.strip
-          obj.url = data.css("a").attr("href").text
-        end
-      end
+    doc = Nokogiri::HTML(open("https://www.barnesandnoble.com/b/books/_/N-1fZ29Z8q8"))
+      
+  doc.css("div.product-info-view").each do |book|
 
-    def self.clear
-      @@all = []
+      title = book.css("h3 a").text.strip
+      author = book.css("div.product-shelf-author").text.strip
+      price = book.css("a.current.link").text
+      #release_date = book.css("")
+      url = book.css("a").attr("href").text
+     Book.new(title, author, price, url)
+
+      end
     end
+
+  def self.clear
+    @@all = []
+  end
 end
 
 
