@@ -1,38 +1,28 @@
-class Book
-    attr_accessor :title, :author, :url, :price
+class BnBooks::Book
+    attr_accessor :title, :books, :author, :price, :url
 
     @@all = []
   
-    def initialize
-      @@all << self
+    def initialize(title, author, price, url)
+      @title = title
+      @author = author
+      @price = price
+      @url = url
+    
+      save
     end
   
     def self.all
+      BnBooks::Scraper.scrape_best_sellers if @@all.empty?
       @@all
     end
-  
-    def self.find_by_index(index)
-      @all[index]
+
+    def save 
+      @@all << self
     end
 
-  def self.clear
-    @@all =[]
-  end
-
-  def self.display_book_details
-    puts "More info on selected title :"
-    puts ""
-      Book.all.each.with_index(1) do |book, index |
-        if book.title
-            puts "#{index}- Title: #{book.title}"
-            puts " Author: #{book.author}"
-            puts " URL : #{book.url}"
-            puts " Price: #{book.price}"
-            puts "------------------------"
-          end
-        end
-      end
-
-
+    def self.clear
+      @@all =[]
+    end
 
 end
