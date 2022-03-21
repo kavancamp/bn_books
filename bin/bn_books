@@ -3,4 +3,7 @@
 
 require_relative '../lib/bn_books'
 
-CLI.new.call
+#module name: BnBooks
+#Class of CLI
+BnBooks::CLI.new.call
+#create a new instance of CLI class Call method 
