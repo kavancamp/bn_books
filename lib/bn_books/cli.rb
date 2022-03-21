@@ -7,11 +7,12 @@ class BnBooks::CLI
         get_customer_choice
         book_link
     end
+
     def greeting 
-        puts "                          3Welcome To B & N Best Sellers CLI!!! "
+        puts "                      Welcome To B & N Best Sellers CLI!!! "
         puts "\n"
     end
-    def get_best_sellers
+    def get_best_sellers 
         @books = BnBooks::Book.all
     end
 
@@ -21,14 +22,15 @@ class BnBooks::CLI
         puts "              ***********************************************"
         puts "\n"
     @books.each.with_index(1) do |book, index| 
-        #iterate 
+        #books variable (.each)iterate over array 
         puts "#{index}. #{book.title}"
         puts "             "
         end 
     end
 
     def get_customer_choice
-        chosen_book = gets.strip.to_i #get book choice. .strip method-Remove leading and trailing whitespace
+        chosen_book = gets.strip.to_i 
+    #get book choice. .strip method-#remove extra whitespace/to_i change to integer
         display_book_details(chosen_book) if is_valid?(chosen_book, @books)
     end
 
@@ -39,39 +41,36 @@ class BnBooks::CLI
     def display_book_details(chosen_book)
         book = @books[chosen_book - 1]
         books = 
-        puts "\n                   More info on selected title:"
-                puts "                  Title:  #{book.title}"
-                puts "                  Author: #{book.author}"
-                puts "                  Price:  #{book.price}"
-                puts "                  URL :   #{book.url}"
+            puts "\n              More info on selected title:"
+            puts "                  Title:  #{book.title}"
+            puts "                  Author: #{book.author}"
+            puts "                  Price:  #{book.price}"
+            puts "                  URL :   #{book.url}"
                 puts " " 
     end
 
-    def book_link
+    def book_link  #takes input and opens link to Barnes and Noble book listing
         input = nil
        while input != "exit"
         puts "\nEnter book number to visit Barnes and Noble, 'list' to view the list again, or 'exit'!"
         puts "\n                    ------------------------" 
         input = gets.strip
-        if (input.to_i > 0) && (input.to_i < 100)
+        if (input.to_i > 0) && (input.to_i < 20)
         system("open https://www.barnesandnoble.com/#{BnBooks::Book.all[input.to_i-1].url}")
      BnBooks::Scraper.clear
 
-    elsif 
-        input == "exit"
+    elsif input == 'exit'
         puts " "
         puts "\n                   Have a nice day!!!!"
         puts " "
         BnBooks::Scraper.clear 
     elsif input == "list"
-    BnBooks::Scraper.clear
        list_best_sellers
     else
     puts "\n                    ------------------------" 
-    puts "                  I'm sorry, I do not understand"
+    puts "                Come again? I do not understand"
     
-    
-        end
+            end
        end
     end
 
