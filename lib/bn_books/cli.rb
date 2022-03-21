@@ -1,22 +1,24 @@
 class BnBooks::CLI 
 
     def call
-        puts "       Welcome To B & N Best Sellers CLI!!! "
-        puts "                  ***********"
-        puts "\n"
+        greeting
         get_best_sellers
         list_best_sellers
         get_customer_choice
         book_link
+    end
+    def greeting 
+        puts "                          3Welcome To B & N Best Sellers CLI!!! "
+        puts "\n"
     end
     def get_best_sellers
         @books = BnBooks::Book.all
     end
 
     def list_best_sellers #get 
-        puts "***********************************************"
-        puts "Enter the number of the book you would like more information on, else enter 'list' or exit !"
-        puts "***********************************************"
+        puts "              ***********************************************"
+        puts "Enter the number of the book you would like more information on, enter 'list' or exit !"
+        puts "              ***********************************************"
         puts "\n"
     @books.each.with_index(1) do |book, index| 
         #iterate 
@@ -31,40 +33,44 @@ class BnBooks::CLI
     end
 
     def is_valid?(input, data)#check validity of input
-       if input.to_i <= data.length && input.to_i > 0
+     input.to_i <= data.length && input.to_i > 0
     end
 
     def display_book_details(chosen_book)
         book = @books[chosen_book - 1]
         books = 
-        puts "More info on selected title :"
-                puts "Title: #{book.title}"
-                puts "Author: #{book.author}"
-                puts "Price: #{book.price}"
-                puts "URL : #{book.url}"
-                puts "------------------------" 
+        puts "\n                   More info on selected title:"
+                puts "                  Title:  #{book.title}"
+                puts "                  Author: #{book.author}"
+                puts "                  Price:  #{book.price}"
+                puts "                  URL :   #{book.url}"
+                puts " " 
     end
 
     def book_link
         input = nil
        while input != "exit"
-        puts "\nEnter book number to go to the web page or 'list' to get categories or 'exit'!"
+        puts "\nEnter book number to visit Barnes and Noble, 'list' to view the list again, or 'exit'!"
+        puts "\n                    ------------------------" 
         input = gets.strip
         if (input.to_i > 0) && (input.to_i < 100)
         system("open https://www.barnesandnoble.com/#{BnBooks::Book.all[input.to_i-1].url}")
-        elsif
-            input == "list"
-        BnBooks::Scraper.clear
-           list_best_sellers
-            break
-        elsif 
-         puts   "\nInvalid Entry, Enter book number to go to view more information on a title, 'list' to view list again, or 'exit'!" 
-    else 
+     BnBooks::Scraper.clear
+
+    elsif 
         input == "exit"
         puts " "
-        puts "\nHave a nice day!!!!"
-        break
+        puts "\n                   Have a nice day!!!!"
+        puts " "
         BnBooks::Scraper.clear 
+    elsif input == "list"
+    BnBooks::Scraper.clear
+       list_best_sellers
+    else
+    puts "\n                    ------------------------" 
+    puts "                  I'm sorry, I do not understand"
+    
+    
         end
        end
     end
