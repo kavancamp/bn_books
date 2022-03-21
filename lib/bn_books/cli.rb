@@ -10,8 +10,8 @@ class CLI
     def list_best_sellers
         x = Scraper.new
         x.scrape_best_sellers
-        x.title.each_with_index do |title,index|
-        puts "#{index + 1}.#{title}"
+        x.best.each.with_index(1) do |best,index|
+        puts "#{index}.#{best}"
         puts "             "
         end
     end
@@ -27,7 +27,7 @@ class CLI
            if (input.to_i > 0) && (input.to_i <= 20)
             x = Scraper.new
             x.scrape_best_sellers
-            x.scrape_book(x.title[input.to_i-1])
+            x.scrape_book(x.best[input.to_i-1])
             Book.display_book_details
             book_link
             break
@@ -44,11 +44,11 @@ end
         puts "\nEnter book number to go to the web page or 'list' to get categories or 'exit'!"
         input = gets.strip
         if (input.to_i > 0) && (input.to_i < 20)
-        system("open https://www.barnesandnoble.com/{Book.all[input.to_i-1].url}")
+        system("open https://www.barnesandnoble.com/#{Book.all[input.to_i-1].url}")
         elsif
             input == "list"
         Scraper.clear
-            best_sellers
+            list_best_sellers
             menu
             break
         else
