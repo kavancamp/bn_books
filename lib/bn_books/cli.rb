@@ -1,60 +1,72 @@
-class CLI 
+class BnBooks::CLI 
 
     def call
         puts "       Welcome To B & N Best Sellers CLI!!! "
         puts "                  ***********"
+        puts "\n"
+        get_best_sellers
         list_best_sellers
-        menu
+        get_customer_choice
+        book_link
     end
-    
-    def list_best_sellers
-        x = Scraper.new
-        x.scrape_best_sellers
-        x.best.each.with_index(1) do |best,index|
-        puts "#{index}.#{best}"
-        puts "             "
-        end
+    def get_best_sellers
+        @books = BnBooks::Book.all
     end
 
-    def menu
-        input = nil
-        while input != "exit"
+    def list_best_sellers #get 
         puts "***********************************************"
-        puts "Please enter the number of the book you would like more information on, else enter 'list' or exit !"
+        puts "Enter the number of the book you would like more information on, else enter 'list' or exit !"
         puts "***********************************************"
         puts "\n"
-        input = gets.strip.downcase
-           if (input.to_i > 0) && (input.to_i <= 20)
-            x = Scraper.new
-            x.scrape_best_sellers
-            x.scrape_book(x.best[input.to_i-1])
-            Book.display_book_details
-            book_link
-            break
-           elsif input == 'list'
-        list_best_sellers
-    else 
-        puts "\n Invalid Entry, Please try again"
+    @books.each.with_index(1) do |book, index| 
+        #iterate 
+        puts "#{index}. #{book.title}"
+        puts "             "
+        end 
     end
-end
-end
+
+    def get_customer_choice
+        chosen_book = gets.strip.to_i #get book choice. .strip method-Remove leading and trailing whitespace
+        display_book_details(chosen_book) if is_valid?(chosen_book, @books)
+    end
+
+    def is_valid?(input, data)#check validity of input
+       if input.to_i <= data.length && input.to_i > 0
+    end
+
+    def display_book_details(chosen_book)
+        book = @books[chosen_book - 1]
+        books = 
+        puts "More info on selected title :"
+                puts "Title: #{book.title}"
+                puts "Author: #{book.author}"
+                puts "Price: #{book.price}"
+                puts "URL : #{book.url}"
+                puts "------------------------" 
+    end
+
     def book_link
         input = nil
-        while input != "exit"
+       while input != "exit"
         puts "\nEnter book number to go to the web page or 'list' to get categories or 'exit'!"
         input = gets.strip
-        if (input.to_i > 0) && (input.to_i < 20)
-        system("open https://www.barnesandnoble.com/#{Book.all[input.to_i-1].url}")
+        if (input.to_i > 0) && (input.to_i < 100)
+        system("open https://www.barnesandnoble.com/#{BnBooks::Book.all[input.to_i-1].url}")
         elsif
             input == "list"
-        Scraper.clear
-            list_best_sellers
-            menu
+        BnBooks::Scraper.clear
+           list_best_sellers
             break
-        else
-            break
+        elsif 
+         puts   "\nInvalid Entry, Enter book number to go to view more information on a title, 'list' to view list again, or 'exit'!" 
+    else 
+        input == "exit"
+        puts " "
+        puts "\nHave a nice day!!!!"
+        break
+        BnBooks::Scraper.clear 
         end
-        end
+       end
     end
 
 end
