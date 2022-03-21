@@ -8,7 +8,7 @@ class BnBooks::Scraper
       author = data.css("div.product-shelf-author").text.strip
       price = data.css("a.current.link").text.strip
       url = data.css("a").attr("href").text
-      BnBooks::Book.new(title, author, price, url)
+      BnBooks::Book.new(title, author, price, url) #assigned output to attribute
       
     end
   end
